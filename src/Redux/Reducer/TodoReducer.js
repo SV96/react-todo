@@ -33,8 +33,6 @@ const todoReducer = (state = initialTodos, action) => {
       return {
         todos: { ...state.todos },
       };
-    case deleteAllTodo:
-      return {};
     default:
       return state;
   }

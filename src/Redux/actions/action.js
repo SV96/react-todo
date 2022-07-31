@@ -26,9 +26,3 @@ export const deleteTodoAction = (data) => {
     data: data,
   };
 };
-
-export const deleteAllTodoAction = () => {
-  return {
-    type: deleteAllTodo,
-  };
-};
