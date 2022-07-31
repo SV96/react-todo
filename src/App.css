@@ -1,0 +1,21 @@
+.App {
+  font-family: "Times New Roman", Times, serif;
+}
+
+.rs-picker-daterange-menu {
+  z-index: 10000000000; /* added a large random number, you can choose it more carefully based on your use-case.*/
+}
+
+label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+label + label {
+  margin-left: 1.5rem;
+}
+
+.select-holder > div {
+  width: 100%;
+}
