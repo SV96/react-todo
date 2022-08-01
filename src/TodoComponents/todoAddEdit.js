@@ -16,19 +16,22 @@ import { gender, hobby, status } from "../constants/todoConstants";
 import todoStyles from "../Styles/todoAppStyles";
 import { addTodoAction, editTodoAction } from "../Redux/actions/action";
 import appRouting from "../constants/routingConstants";
+import ErrorMsg from "./errorMsg";
 
 const TodoAddEdit = () => {
   const [todoData, setTodoData] = useState({
     userName: "",
     gender: "",
     hobby: [],
-    age: 21,
-    taskData: new Date(),
+    age: "",
+    taskData: null,
     taskName: "",
     taskStatus: "",
   });
 
   const [formStatus, setFormStatus] = useState();
+
+  const [formError, setFormError] = useState({});
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -84,11 +87,42 @@ const TodoAddEdit = () => {
     history.push(appRouting.app.path);
   };
 
+  const handleFormError = () => {
+    let tempFormError = {};
+    if (todoData.userName === "") {
+      tempFormError["userNameError"] = "* User name is required";
+    }
+    if (todoData.gender === "") {
+      tempFormError["genderError"] = "* Select gender";
+    }
+    if (todoData.hobby.length === 0) {
+      tempFormError["hobbyError"] = "* Select hobby";
+    }
+
+    if (todoData.age === "") {
+      tempFormError["ageError"] = "* Select age";
+    }
+
+    if (todoData.taskData === null) {
+      tempFormError["taskDateError"] = "* Select date";
+    }
+
+    if (todoData.taskName === "") {
+      tempFormError["taskNameError"] = "* Task name required";
+    }
+    if (todoData.taskStatus === "") {
+      tempFormError["taskStatusError"] = "* Select task status";
+    }
+    let errorDecider = Object.keys(tempFormError).length > 0 ? false : true;
+    setFormError(tempFormError);
+    return errorDecider;
+  };
+
   // decided weather to use add reducer or edit
   const handleDecideReducer = () => {
-    if (formStatus.isAdd) {
+    if (handleFormError() && formStatus.isAdd) {
       addTodoReducer();
-    } else {
+    } else if (handleFormError()) {
       editTodoReducer();
     }
   };
@@ -152,6 +186,7 @@ const TodoAddEdit = () => {
                   value={todoData.userName}
                   onChange={(e) => handleFiledChage(e, "userName")}
                 />
+                <ErrorMsg fieldError={formError?.userNameError} />
               </div>
             </Box>
 
@@ -176,6 +211,7 @@ const TodoAddEdit = () => {
                     </Fragment>
                   );
                 })}
+                <ErrorMsg fieldError={formError?.genderError} />
               </div>
             </Box>
 
@@ -199,12 +235,13 @@ const TodoAddEdit = () => {
                     </Fragment>
                   );
                 })}
+                <ErrorMsg fieldError={formError?.hobbyError} />
               </div>
             </Box>
 
             {/* age */}
             <Box sx={todoStyles.styleBox}>
-              <label>Hobby:</label>
+              <label>Age:</label>
               <div style={todoStyles.rightDivStyles}>
                 <Slider
                   value={todoData.age || 21}
@@ -214,6 +251,7 @@ const TodoAddEdit = () => {
                   max={55}
                   onChange={(e) => handleFiledChage(e, "age")}
                 />
+                <ErrorMsg fieldError={formError?.ageError} />
               </div>
             </Box>
 
@@ -222,9 +260,14 @@ const TodoAddEdit = () => {
               <label>Date:</label>
               <div style={todoStyles.rightDivStyles}>
                 <DatePicker
-                  selected={new Date(todoData.taskData)}
+                  selected={
+                    todoData.taskData !== null
+                      ? new Date(todoData.taskData)
+                      : null
+                  }
                   onChange={(date) => handleFiledChage(date, "taskData")}
                 />
+                <ErrorMsg fieldError={formError?.taskDateError} />
               </div>
             </Box>
 
@@ -239,6 +282,7 @@ const TodoAddEdit = () => {
                   value={todoData.taskName}
                   onChange={(e) => handleFiledChage(e, "taskName")}
                 />
+                <ErrorMsg fieldError={formError?.taskNameError} />
               </div>
             </Box>
 
@@ -255,6 +299,7 @@ const TodoAddEdit = () => {
                     (option) => option.value === todoData.taskStatus
                   )}
                 />
+                <ErrorMsg fieldError={formError?.taskStatusError} />
               </div>
             </Box>
           </Stack>

@@ -52,7 +52,8 @@ const todoStyles = {
   rightDivStyles: {
     display: "flex",
     justifyContent: "flex-start",
-    minWidth: "300px",
+    width: "300px",
+    flexWrap: "wrap",
   },
 };
 
