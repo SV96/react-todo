@@ -1,9 +1,4 @@
-import {
-  addTodo,
-  editTodo,
-  deleteTodo,
-  deleteAllTodo,
-} from "../../constants/reduxConstants";
+import { addTodo, editTodo, deleteTodo } from "../../constants/reduxConstants";
 
 const initialTodos = {
   todos: {},

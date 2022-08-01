@@ -1,12 +1,6 @@
-import {
-  addTodo,
-  editTodo,
-  deleteTodo,
-  deleteAllTodo,
-} from "../../constants/reduxConstants";
+import { addTodo, editTodo, deleteTodo } from "../../constants/reduxConstants";
 
 export const addTodoAction = (data) => {
-  console.log(data);
   return {
     type: addTodo,
     data: data,

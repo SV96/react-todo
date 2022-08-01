@@ -20,6 +20,13 @@ const todoStyles = {
     display: "flex",
     justifyContent: "flex-end",
   },
+  todoAppBoxFour: {
+    display: "flex",
+    justifyContent: "center",
+    backgroundColor: "#b8f589",
+    mb: "25px",
+    mt: "10px",
+  },
   styleBox: {
     display: "flex",
     justifyContent: "space-between",

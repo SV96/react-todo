@@ -8,6 +8,9 @@ import Select from "react-select";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import Slider from "@mui/material/Slider";
+import Typography from "@mui/material/Typography";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 import { gender, hobby, status } from "../constants/todoConstants";
 import todoStyles from "../Styles/todoAppStyles";
@@ -19,7 +22,7 @@ const TodoAddEdit = () => {
     userName: "",
     gender: "",
     hobby: [],
-    age: "",
+    age: 21,
     taskData: new Date(),
     taskName: "",
     taskStatus: "",
@@ -56,6 +59,7 @@ const TodoAddEdit = () => {
     setTodoData(todoTemp);
   };
 
+  // grabs every filed change value and set state
   const handleFiledChage = (e, filedName) => {
     if (filedName === "taskStatus") {
       setTodoData({ ...todoData, taskStatus: e.value });
@@ -80,6 +84,7 @@ const TodoAddEdit = () => {
     history.push(appRouting.app.path);
   };
 
+  // decided weather to use add reducer or edit
   const handleDecideReducer = () => {
     if (formStatus.isAdd) {
       addTodoReducer();
@@ -96,9 +101,14 @@ const TodoAddEdit = () => {
     });
   };
 
+  // used to set value in field to edit
   const fillDataEdit = (id) => {
     setTodoData(allTodos[id]);
     handleFormStatus("Edit Todo", false, "Edit");
+  };
+
+  const redirectBack = () => {
+    history.push(appRouting.app.path);
   };
 
   useEffect(() => {
@@ -114,6 +124,12 @@ const TodoAddEdit = () => {
     <>
       <Box sx={todoStyles.todoAppBoxOne}>
         <Box sx={todoStyles.todoAppBoxTwo}>
+          <ArrowBackIcon onClick={(e) => redirectBack()} />
+          <Box sx={todoStyles.todoAppBoxFour}>
+            <Typography variant="h5" component="h2">
+              {formStatus?.formHeader}
+            </Typography>
+          </Box>
           <Stack
             spacing={3}
             sx={{
@@ -186,6 +202,21 @@ const TodoAddEdit = () => {
               </div>
             </Box>
 
+            {/* age */}
+            <Box sx={todoStyles.styleBox}>
+              <label>Hobby:</label>
+              <div style={todoStyles.rightDivStyles}>
+                <Slider
+                  value={todoData.age || 21}
+                  aria-label="Small"
+                  valueLabelDisplay="auto"
+                  min={18}
+                  max={55}
+                  onChange={(e) => handleFiledChage(e, "age")}
+                />
+              </div>
+            </Box>
+
             {/* date  */}
             <Box sx={todoStyles.styleBox}>
               <label>Date:</label>
@@ -227,7 +258,7 @@ const TodoAddEdit = () => {
               </div>
             </Box>
           </Stack>
-
+          {/* submit button  */}
           <Box
             sx={{
               display: "flex",
